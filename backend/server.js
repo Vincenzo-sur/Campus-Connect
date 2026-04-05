@@ -9,9 +9,6 @@ const connectDB = require('./config/db');
 // Load environment variables
 dotenv.config();
 
-// Connect to database
-connectDB();
-
 const app = express();
 
 // Security middleware
@@ -76,6 +73,11 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
-});
+const startServer = async () => {
+    await connectDB();
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
+    });
+};
+
+startServer();
